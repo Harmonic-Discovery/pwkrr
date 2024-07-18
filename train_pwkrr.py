@@ -1,5 +1,4 @@
-from pwkrr import PairwiseKernelRidge
-from pwkrr import PairwiseKernelRidgeDataset
+from pwkrr import PairwiseKernelRidge, PairwiseKernelRidgeDataset
 from scipy.stats import pearsonr, spearmanr, kendalltau
 
 import os
