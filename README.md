@@ -19,7 +19,7 @@ pip install .
 
 ## Training a model
 
-A script to train the model is included in `train_pwkrr.py`. This script requires a config file to run; an example is provided in `example_config.json`. 
+An example script to train the model is included in `train_pwkrr.py`. This script requires a config file to run; an example is provided in `example_config.json`, which points to an example train/val split (based on a clustering of the compounds) in the `data/` directory.
 
 To test that the environment is setup and runnning correctly, we can run the training script in test mode with
 

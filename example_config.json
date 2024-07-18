@@ -1,6 +1,7 @@
 {
-    "run_name": "pwkrr_ck_single",
-    "data_path": "prepped_activities_all_chembl_pubchem.csv",
+    "run_name": "demo",
+    "train_data": "data/train.csv",
+    "val_data": "data/val.csv",
     "protein_kernel": "normalized_ssw",
     "ligand_features": [
         [
@@ -11,9 +12,7 @@
             }
         ]
     ],
-    "split": "ck",
     "max_iter": 1000,
     "alpha": 0.005,
-    "store_eigs": false,
-    "stage": "single"
+    "store_eigs": false
 }

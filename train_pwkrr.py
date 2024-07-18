@@ -30,51 +30,11 @@ if __name__ == "__main__":
     ) as fp:
         json.dump(params, fp)
 
-    split = params.get("split", "ck")
-    stage = params.get("stage", "single")
-    dataset = pd.read_csv(params.get("data_path"))
-    dataset = dataset.dropna()
-
-    if split == "ck":
-        val_dataset = dataset[dataset["ck_split_set"] == "test"]
-        train_dataset = dataset[dataset["ck_split_set"] == "train"]
-        if stage == "single":
-            train_dataset = train_dataset[train_dataset["activity_type"] == "measured"]
-            runid = "pwkrr_ck_single"
-        else:
-            runid = "pwkrr_ck_multi"
-    elif split == "ligand":
-        val_dataset = dataset[dataset["ligand_split_set"] == "test"]
-        train_dataset = dataset[dataset["ligand_split_set"] == "train"]
-        if stage == "single":
-            train_dataset = train_dataset[train_dataset["activity_type"] == "measured"]
-            runid = "pwkrr_ligand_single"
-        else:
-            runid = "pwkrr_ligand_multi"
-    elif split == "scaffold":
-        val_dataset = dataset[dataset["scaffold_split_set"] == "test"]
-        train_dataset = dataset[dataset["scaffold_split_set"] == "train"]
-        if stage == "single":
-            train_dataset = train_dataset[train_dataset["activity_type"] == "measured"]
-            runid = "pwkrr_scaffold_single"
-        else:
-            runid = "pwkrr_scaffold_multi"
-    elif split == "cluster":
-        val_dataset = dataset[dataset["cluster_split_set"] == "test"]
-        train_dataset = dataset[dataset["cluster_split_set"] == "train"]
-        if stage == "single":
-            train_dataset = train_dataset[train_dataset["activity_type"] == "measured"]
-            runid = "pwkrr_cluster_single"
-        else:
-            runid = "pwkrr_cluster_multi"
-    elif split == "prod":
+    train_dataset = pd.read_csv(params.get("train_data"))
+    if params.get("val_data") is not None:
+        val_dataset = pd.read_csv(params.get("val_data")) 
+    else:
         val_dataset = None
-        train_dataset = dataset
-        if stage == "single":
-            train_dataset = train_dataset[train_dataset["activity_type"] == "measured"]
-            runid = "pwkrr_prod_single"
-        else:
-            runid = "pwkrr_prod_multi"
 
     if args.test:
         # for the sake of testing, train a model on a tiny subset
