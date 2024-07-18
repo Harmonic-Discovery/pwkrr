@@ -30,14 +30,7 @@ class PairwiseKernelRidgeDataset:
             smiles_column (str): name of column containing smiles
             prot_id_column (str): name of column containing uniprot ids
             labels_column (str): the column where the labels are stored (if any)
-            params (dict): dict containing (optionally) additional parameters:
-                fp_type (str): what type of fingerprints to compute (only supports morgan currently)
-                residues (int or str): how many residues to keep for the active site sequences (either 29 or 85)
-                                       only used if protein_feature_type='aa'
-                radius (int): radius for morgan fingerprints
-                n_bits (int): number of bits for morgan fingerprints
-                use_chirality (bool): useChirality argument passed to AllChem.GetMorganFingerprintAsBitVect
-                as_csr (bool): whether to store fingerprints as sparse csr_matrix
+            params (dict): dict containing (optionally) additional parameters
             n_workers (int): number of processes to spawn when generating the fingerprints
 
         Attributes:
@@ -54,9 +47,6 @@ class PairwiseKernelRidgeDataset:
         assert (smiles_column in dataset.columns) and (
             prot_id_column in dataset.columns
         ), "dataset needs to contain smiles_column and prot_id_column"
-        assert (
-            params.get("fp_type", "morgan") in FP_FACTORY.keys()
-        ), f"currently only supports fp_type in {FP_FACTORY.keys()}"
 
         self.params = params.copy()
         self.dataset = dataset
