@@ -1,6 +1,26 @@
 # Pairwise Kernel Ridge Regression
 
-This repo implements pairwise kernel ridge regression ("pwkrr") for compound-kinase bioactivity prediction.
+This repo implements pairwise kernel ridge regression ("pwkrr") for compound-kinase bioactivity prediction. For a set of training protein-ligand pairs $S = \{(p_i, l_i)\}_{i=1}^n$, the prediction for a new pair $(p,l)$ is defined as
+
+$$
+f(p, l) = \sum_i \alpha_i k((p,l), (p_i, l_i)) 
+$$
+
+where 
+
+$$
+k((p, l), (p', l')) = k_P(p, p')\cdot k_L(l, l')
+$$
+
+is the product kernel. Here $k_P$ is taken to be the normalized Striped Smith-Waterman alignment, and $k_L$ is the Tanimoto kernel on molecular fingerprints. The parameters $\alpha_i$ are fit using the conjugate gradient method. 
+
+Our implementation also includes support for uncertainty estimatation, based on the interpretation of a kernel ridge regression model as a Gaussian process. The uncertainty is computed as
+
+$$
+s^2(p,l) = 1 - k_S(p, l)^\top(K_S + \lambda I)^{-1}k_S(p, l)
+$$
+
+where $k_S(p, l) \in \mathbb{R}^n$ is the vector whose $i$th entry is $k((p,l), (p_i, l_i))$ and $K_S$ is the $n\times n$ training kernel. Since this operation is very expensive for large $n$, our implementation approximates this uncertainty via a rank $m \leq n$ approximation of $K_S$.
 
 ## Environment setup
 
