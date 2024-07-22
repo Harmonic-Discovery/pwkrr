@@ -22,7 +22,7 @@ class PairwiseKernelRidgeDataset:
         labels_column: str = "summarized_activity_value",
         n_workers: int = 1,
         verbose: bool = True,
-        params: dict = {},
+        ligand_features: list = [("morgan", {"radius": 2, "n_bits": 1024})],
     ):
         """
         Arguments:
@@ -30,8 +30,9 @@ class PairwiseKernelRidgeDataset:
             smiles_column (str): name of column containing smiles
             prot_id_column (str): name of column containing uniprot ids
             labels_column (str): the column where the labels are stored (if any)
-            params (dict): dict containing (optionally) additional parameters
             n_workers (int): number of processes to spawn when generating the fingerprints
+            ligand_features (dict): list of tuples defining fingerprints to be used for ligands,
+                e.g. [("morgan", {"radius": 2, "n_bits": 1024})]
 
         Attributes:
             ligands (tuple): tuple containing (ligands, ligand_ixs), where
@@ -48,7 +49,6 @@ class PairwiseKernelRidgeDataset:
             prot_id_column in dataset.columns
         ), "dataset needs to contain smiles_column and prot_id_column"
 
-        self.params = params.copy()
         self.dataset = dataset
         self.smiles_column = smiles_column
         self.prot_id_column = prot_id_column
@@ -90,9 +90,7 @@ class PairwiseKernelRidgeDataset:
 
         # extract the different fingerprint types
         self.ligands = []
-        for fp_type, fp_params in params.get(
-            "ligand_features", [("morgan", {"radius": 2})]
-        ):
+        for fp_type, fp_params in ligand_features:
             curr, ix = FP_FACTORY[fp_type](
                 self.smiles, n_workers=n_workers, **fp_params
             )

@@ -32,7 +32,7 @@ if __name__ == "__main__":
 
     train_dataset = pd.read_csv(params.get("train_data"))
     if params.get("val_data") is not None:
-        val_dataset = pd.read_csv(params.get("val_data")) 
+        val_dataset = pd.read_csv(params.get("val_data"))
     else:
         val_dataset = None
 
@@ -42,12 +42,18 @@ if __name__ == "__main__":
         val_dataset = val_dataset.sample(n=100)
 
     train_dataset = PairwiseKernelRidgeDataset(
-        train_dataset, labels_column="activity_value", n_workers=4, params=params
+        train_dataset,
+        labels_column="activity_value",
+        n_workers=4,
+        ligand_features=params.get("ligand_features"),
     )
 
     if val_dataset is not None:
         val_dataset = PairwiseKernelRidgeDataset(
-            val_dataset, labels_column="activity_value", n_workers=4, params=params
+            val_dataset,
+            labels_column="activity_value",
+            n_workers=4,
+            ligand_features=params.get("ligand_features"),
         )
 
     model = PairwiseKernelRidge(
