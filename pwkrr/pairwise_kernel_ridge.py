@@ -102,7 +102,7 @@ class PairwiseKernelRidge:
         # compute top eigenvalues/vectors if desired
         # (this is computationally intensive)
         if store_eigs:
-            self.eigenvalues, self.eigenvectors = sla.eigsh(pwk_op, k=5000)
+            self.eigenvalues, self.eigenvectors = sla.eigsh(pwk_op, k=min(500, len(self.train_ligand_ixs)))
         else:
             self.eigenvalues, self.eigenvectors = None, None
 
