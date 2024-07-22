@@ -20,7 +20,7 @@ $$
 s^2(p,l) = 1 - k_S(p, l)^\top(K_S + \lambda I)^{-1}k_S(p, l)
 $$
 
-where $k_S(p, l) \in \mathbb{R}^n$ is the vector whose $i$th entry is $k((p,l), (p_i, l_i))$ and $K_S$ is the $n\times n$ training kernel. Since this operation is very expensive for large $n$, our implementation approximates this uncertainty via a rank $m \leq n$ approximation of $K_S$.
+where $k_S(p, l) \in \mathbb{R}^n$ is the vector whose i-th entry is $k((p,l), (p_i, l_i))$ and $K_S$ is the $n\times n$ training kernel. Since this operation is very expensive for large $n$, our implementation approximates this uncertainty via a rank $m \leq n$ approximation of $K_S$.
 
 ## Environment setup
 
