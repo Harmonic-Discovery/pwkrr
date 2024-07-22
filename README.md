@@ -52,7 +52,7 @@ After training, the final model will be saved to `checkpoints/<your_run_name>/`.
 ```python
 from pwkrr import PairwiseKernelRidge
 
-model = PairwiseKernelRidge().load_from_file("checkpoints/<your_run_name>/model.pkl")
+model = PairwiseKernelRidge.load_from_file("checkpoints/<your_run_name>/model.pkl")
 ```
 
 ## References
