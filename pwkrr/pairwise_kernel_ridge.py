@@ -184,37 +184,37 @@ class PairwiseKernelRidge:
 
         return model_meta
 
-    def load(self, data):
+    @classmethod
+    def load(cls, data):
         """
         load model from data
         """
-        if self.is_fitted:
-            print("warning, this will override the current fitted model")
-
         try:
-            self.alpha = data["alpha"]
-            self.train_protein_ixs = data["train_protein_ixs"]
-            self.train_ligand_ixs = data["train_ligand_ixs"]
-            self.train_proteins = data["train_proteins"]
-            self.train_ligands = data["train_ligands"]
-            self.protein_kernel = data.get("protein_kernel", "normalized_ssw")
-            self.protein_kernel_power = data.get("protein_kernel_power", 1.0)
-            self.ligand_kernel = data.get("ligand_kernel", "tanimoto")
-            self.ligand_kernel_power = data.get("ligand_kernel_power", 1.0)
-            self.eigenvalues = data.get("eigenvalues")
-            self.eigenvectors = data.get("eigenvectors")
-            self.params = data["params"]
-            self.is_fitted = True
-            self.timestamp = data.get("timestamp")
+            obj = cls()
+            obj.alpha = data["alpha"]
+            obj.train_protein_ixs = data["train_protein_ixs"]
+            obj.train_ligand_ixs = data["train_ligand_ixs"]
+            obj.train_proteins = data["train_proteins"]
+            obj.train_ligands = data["train_ligands"]
+            obj.protein_kernel = data.get("protein_kernel", "normalized_ssw")
+            obj.protein_kernel_power = data.get("protein_kernel_power", 1.0)
+            obj.ligand_kernel = data.get("ligand_kernel", "tanimoto")
+            obj.ligand_kernel_power = data.get("ligand_kernel_power", 1.0)
+            obj.eigenvalues = data.get("eigenvalues")
+            obj.eigenvectors = data.get("eigenvectors")
+            obj.params = data["params"]
+            obj.is_fitted = True
+            obj.timestamp = data.get("timestamp")
 
             if "meta" in data.keys():
-                self.meta = data["meta"]
+                obj.meta = data["meta"]
 
-            return self
+            return obj
         except:
-            print("error loading saved model")
+            raise Exception("error loading saved model")
 
-    def load_from_file(self, filepath):
+    @classmethod
+    def load_from_file(cls, filepath):
         """
         load model from filepath
         """
@@ -222,6 +222,6 @@ class PairwiseKernelRidge:
         if os.path.isfile(filepath):
             with open(filepath, "rb") as fp:
                 data = pickle.load(fp)
-            return self.load(data)
+            return cls.load(data)
         else:
-            print("specified model filepath doesnt exist")
+            raise ValueError(f"no model found at filepath {filepath}")
